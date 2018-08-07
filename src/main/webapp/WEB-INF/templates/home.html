@@ -7,6 +7,49 @@
 <body>
 hello home
 
-<p th:utext="#{user.name}">lisi</p>
+<p th:utext="#{user.name(${#calendars.format(today)},${name})}">lisi</p>
+
+<p th:text="${#calendars.format(#vars.today)}+'---'+${#calendars.format(today)}"></p>
+<p th:text="${#locale.country} + '--' + ${#locale.language}"></p>
+
+<p th:text="|hello  ${name} false|">dfgfg</p>
+
+<div th:object="${user}">
+    <p>name:<span th:text="*{name}"></span></p>
+    <p>age:<span th:text="*{age}"></span></p>
+</div>
+
+<h1 th:text="*{#object.name}"></h1>
+
+<a th:href="@{http://www.baidu.com/${name}/(orderId=${name})}">百度</a>
+<a th:href="@{/{orderId}(orderId=${name})}">网站web root</a>
+<a th:href="@{//code.jquery.com/jquery-2.0.3.min.js}">协议root路径</a>
+<a th:href="@{~/billing/processInvoice}">服务器root路径</a>
+
+<p th:text="${name} == 12 ? 'lisi' : 'xixi'" th:xxx="hello">王五</p>
+
+
+<form th:action="@{/home}" th:method="post" th:enctype="11" class="form" th:attrappend="class = '-suffix'" th:attrprepend="class='preffix-'">
+    <input th:classappend="none" class="input" type="text" name="username" th:attr="value=#{user.name('lisi',${name})}"/>
+    <input type="radio" name="boy" th:checked="false"> boy
+    <input type="radio" name="boy" th:checked="true"> girl
+    <input th:styleappend="'font:18px'" type="submit" th:attr="value=${name}"/>
+</form>
+
+<table th:each="u,s : ${list}">
+    <tr>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.age}"></td>
+    </tr>
+</table>
+
+<p th:text="false ? 12"></p>
+
+<div th:switch="2">
+    <p th:case="1">nihao</p>
+    <p th:case="2">hello</p>
+</div>
+
+
 </body>
 </html>

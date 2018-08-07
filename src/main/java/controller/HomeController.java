@@ -1,7 +1,9 @@
 package controller;
 
 import com.sun.org.apache.bcel.internal.util.ClassPath;
+import domain.User;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.LazyContextVariable;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.messageresolver.StandardMessageResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -15,6 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 public class HomeController extends HttpServlet{
@@ -51,6 +57,25 @@ public class HomeController extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
+
+        webContext.setVariable("today",Calendar.getInstance());
+        webContext.setVariable("name","李四");
+
+        User user = new User("张三", 12);
+        webContext.setVariable("user",user);
+
+        webContext.setVariable("list", new LazyContextVariable<List<User>>() {
+            @Override
+            protected List<User> loadValue() {
+                List<User> list = new ArrayList<>();
+                list.add(new User("王五",11));
+                list.add(new User("赵柳", 12));
+                list.add(new User("王八河", 13));
+                return list;
+            }
+        });
+
+
         templateEngine.process("home",webContext,resp.getWriter());
     }
 
