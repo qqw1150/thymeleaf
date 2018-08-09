@@ -7,6 +7,10 @@
 <body>
 hello home
 
+<div th:fragment="four">
+    this is four fragment xixi
+</div>
+
 <p th:utext="#{user.name(${#calendars.format(today)},${name})}">lisi</p>
 
 <p th:text="${#calendars.format(#vars.today)}+'---'+${#calendars.format(today)}"></p>
@@ -36,20 +40,48 @@ hello home
     <input th:styleappend="'font:18px'" type="submit" th:attr="value=${name}"/>
 </form>
 
-<table th:each="u,s : ${list}">
-    <tr>
+<table>
+    <tr th:each="u,s : ${list}">
         <td th:text="${u.name}"></td>
         <td th:text="${u.age}"></td>
+    </tr>
+
+    <tr th:remove="tag">
+        <td>爱因斯坦</td>
+        <td>65</td>
+    </tr>
+    <tr th:remove="none">
+        <td>爱迪生</td>
+        <td>78</td>
     </tr>
 </table>
 
 <p th:text="false ? 12"></p>
 
-<div th:switch="2">
+<!--<div th:switch="2">
     <p th:case="1">nihao</p>
     <p th:case="2">hello</p>
+</div>-->
+
+<!--/*-->
+<div th:insert="~{footer::copy(~{::title},_)}" th:assert="true">
+    this is footer
 </div>
 
+<h1 th:fragment="title">
+    this is title
+</h1>
+
+<h2 th:fragment="link">this is link</h2>
+<!--*/-->
+
+<p>hello [[${name}]]</p>
+<p>hi [[#{user.name}]]</p>
+
+<script th:inline="javascript">
+    var u = /*[[${name}]]*/ "hello";
+    console.log(u);
+</script>
 
 </body>
 </html>

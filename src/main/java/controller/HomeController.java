@@ -59,7 +59,7 @@ public class HomeController extends HttpServlet{
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
 
         webContext.setVariable("today",Calendar.getInstance());
-        webContext.setVariable("name","李四");
+        webContext.setVariable("name","hello \"李四\" good day");
 
         User user = new User("张三", 12);
         webContext.setVariable("user",user);
